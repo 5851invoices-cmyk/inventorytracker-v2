@@ -99,171 +99,6 @@ tr:hover td{background:#FAFAF8}
 <div id="app"><div class="loading"><div class="spinner"></div>Loading inventory…</div></div>
 
 <script>
-// ── Translations ─────────────────────────────────────────────────────────────
-let lang = localStorage.getItem('lang') || 'en';
-
-const T = {
-  en: {
-    appTitle: t('appTitle'),
-    appSub: t('appSub'),
-    livePill: t('livePill'),
-    orderLog: 'Order Log',
-    addSku: t('addSku'),
-    outOfStock: 'out of stock',
-    belowReorder: 'below reorder point',
-    totalSkus: t('totalSkus'),
-    outStat: t('outStat'),
-    belowStat: t('belowStat'),
-    totalVal: t('totalVal'),
-    ordersSent: t('ordersSent'),
-    searchPlaceholder: t('searchPlaceholder'),
-    colSku: 'SKU', colProduct: 'Product', colStock: 'Stock / Reorder',
-    colOrderQty: 'Order Qty', colUnitCost: 'Unit Cost', colSupplier: t('labelSupplier'),
-    colStatus: 'Status', colActions: 'Actions',
-    noItems: t('noItems'),
-    lastOrdered: 'Last ordered',
-    min: 'min',
-    statusOk: 'In Stock', statusLow: 'Low Stock', statusOut: 'Out of Stock',
-    btnAdjust: '±', btnEdit: 'Edit', btnOrder: 'Order', btnOrderAlert: '⚡ Order',
-    footerNote: t('footerNote'),
-    // Add modal
-    addSkuTitle: 'Add SKU', editTitle: 'Edit',
-    fieldSku: 'SKU *', fieldUnit: 'Unit', fieldName: 'Product Name',
-    fieldSupplier: 'Supplier Name', fieldEmail: 'Supplier Email',
-    fieldQty: 'Current Qty', fieldReorder: t('labelReorderPt'),
-    fieldOrderQty: 'Order Qty', fieldCost: 'Unit Cost $',
-    skuPlaceholder: 'WGT-001', unitPlaceholder: 'pcs',
-    namePlaceholder: 'Full product name', supplierPlaceholder: 'ACME Supply Co.',
-    emailPlaceholder: 'orders@supplier.com',
-    btnCancel: 'Cancel', btnSave: 'Save', btnDelete: 'Delete',
-    // Adjust modal
-    adjustTitle: 'Adjust Stock',
-    currentStock: 'Current stock',
-    btnSetTo: 'Set to', btnAdd: 'Add', btnRemove: 'Remove',
-    newQty: 'New quantity', qtyToAdd: 'Qty to add', qtyToRemove: 'Qty to remove',
-    newTotal: 'New total',
-    btnApply: 'Apply',
-    // Email modal
-    reorderTitle: 'Reorder',
-    labelTo: t('labelTo'), labelSupplier: t('labelSupplier'), labelCurStock: t('labelCurStock'),
-    labelReorderPt: t('labelReorderPt'), labelOrderQty: t('labelOrderQty'), labelTotal: t('labelTotal'),
-    emailPreviewSubject: 'Subject',
-    btnSendEmail: '✉ Send Order Email', btnSending: 'Sending…',
-    sentTitle: 'Email sent!', sentSub: 'Order email delivered to',
-    sentAt: 'at', btnDone: 'Done',
-    errTitle: 'Failed to send', errSub: 'Check your Resend API key and try again.',
-    btnTryAgain: 'Try Again',
-    // Order log
-    logTitle: 'Order Log', noOrders: 'No orders sent yet',
-    logQty: 'Qty', logEst: 'Est.',
-    btnClose: 'Close',
-    // Toasts
-    toastSkuRequired: 'SKU is required',
-    toastSkuExists: 'SKU already exists',
-    toastAdded: 'Item added ✓',
-    toastUpdated: 'Item updated ✓',
-    toastRemoved: 'Item removed',
-    toastStockUpdated: 'Stock updated ✓',
-    // Email body
-    emailHello: 'Hello',
-    emailTeam: 'Team',
-    emailBody1: 'We are placing a reorder request for the following item.',
-    emailBody2: 'Our stock has reached the reorder threshold.',
-    emailSku: 'SKU',
-    emailProduct: 'Product',
-    emailCurStock: t('labelCurStock'),
-    emailReorderPt: t('labelReorderPt'),
-    emailOrderQty: t('labelOrderQty'),
-    emailUnitCost: 'Unit Cost',
-    emailEstTotal: t('labelTotal'),
-    emailConfirm: 'Please confirm receipt, pricing, and expected delivery date.',
-    emailThanks: 'Thank you,',
-    emailFrom: 'Inventory Management System',
-    emailSubjectPrefix: 'Reorder Request',
-  },
-  es: {
-    appTitle: 'Control de Inventario',
-    appSub: 'Gestión de Inventario',
-    livePill: 'Sincronización en vivo · Datos compartidos',
-    orderLog: 'Registro de Pedidos',
-    addSku: '+ Agregar SKU',
-    outOfStock: 'sin existencias',
-    belowReorder: 'por debajo del punto de reorden',
-    totalSkus: t('totalSkus'),
-    outStat: 'Sin Existencias',
-    belowStat: 'Bajo Mínimo',
-    totalVal: 'Valor Total',
-    ordersSent: 'Pedidos Enviados',
-    searchPlaceholder: 'Buscar por SKU o nombre…',
-    colSku: 'SKU', colProduct: 'Producto', colStock: 'Stock / Reorden',
-    colOrderQty: 'Cant. Pedido', colUnitCost: 'Costo Unit.', colSupplier: 'Proveedor',
-    colStatus: 'Estado', colActions: 'Acciones',
-    noItems: 'Sin artículos. Haz clic en + Agregar SKU para comenzar.',
-    lastOrdered: 'Último pedido',
-    min: 'mín',
-    statusOk: 'En Stock', statusLow: 'Stock Bajo', statusOut: 'Sin Existencias',
-    btnAdjust: '±', btnEdit: 'Editar', btnOrder: 'Pedir', btnOrderAlert: '⚡ Pedir',
-    footerNote: 'Todos los cambios se sincronizan en tiempo real · Cualquiera con esta URL puede usarlo',
-    // Add modal
-    addSkuTitle: 'Agregar SKU', editTitle: 'Editar',
-    fieldSku: 'SKU *', fieldUnit: 'Unidad', fieldName: 'Nombre del Producto',
-    fieldSupplier: 'Nombre del Proveedor', fieldEmail: 'Email del Proveedor',
-    fieldQty: 'Cantidad Actual', fieldReorder: 'Punto de Reorden',
-    fieldOrderQty: 'Cant. a Pedir', fieldCost: 'Costo Unitario $',
-    skuPlaceholder: 'WGT-001', unitPlaceholder: 'pzs',
-    namePlaceholder: 'Nombre completo del producto', supplierPlaceholder: 'Proveedor S.A.',
-    emailPlaceholder: 'pedidos@proveedor.com',
-    btnCancel: 'Cancelar', btnSave: 'Guardar', btnDelete: 'Eliminar',
-    // Adjust modal
-    adjustTitle: 'Ajustar Stock',
-    currentStock: 'Stock actual',
-    btnSetTo: 'Establecer', btnAdd: 'Agregar', btnRemove: 'Quitar',
-    newQty: 'Nueva cantidad', qtyToAdd: 'Cant. a agregar', qtyToRemove: 'Cant. a quitar',
-    newTotal: 'Nuevo total',
-    btnApply: 'Aplicar',
-    // Email modal
-    reorderTitle: 'Reorden',
-    labelTo: 'Para', labelSupplier: 'Proveedor', labelCurStock: 'Stock Actual',
-    labelReorderPt: 'Punto de Reorden', labelOrderQty: 'Cantidad a Pedir', labelTotal: 'Total Est.',
-    emailPreviewSubject: 'Asunto',
-    btnSendEmail: '✉ Enviar Pedido', btnSending: 'Enviando…',
-    sentTitle: '¡Correo enviado!', sentSub: 'Pedido enviado a',
-    sentAt: 'en', btnDone: 'Listo',
-    errTitle: 'Error al enviar', errSub: 'Verifica tu clave de Resend API e intenta de nuevo.',
-    btnTryAgain: 'Intentar de nuevo',
-    // Order log
-    logTitle: 'Registro de Pedidos', noOrders: 'No se han enviado pedidos',
-    logQty: 'Cant.', logEst: 'Est.',
-    btnClose: 'Cerrar',
-    // Toasts
-    toastSkuRequired: 'El SKU es obligatorio',
-    toastSkuExists: 'El SKU ya existe',
-    toastAdded: 'Artículo agregado ✓',
-    toastUpdated: 'Artículo actualizado ✓',
-    toastRemoved: 'Artículo eliminado',
-    toastStockUpdated: 'Stock actualizado ✓',
-    // Email body
-    emailHello: 'Hola equipo de',
-    emailTeam: '',
-    emailBody1: 'Estamos realizando una solicitud de reorden para el siguiente artículo.',
-    emailBody2: 'Nuestro stock ha alcanzado el punto de reorden.',
-    emailSku: 'SKU',
-    emailProduct: 'Producto',
-    emailCurStock: 'Stock Actual',
-    emailReorderPt: 'Punto de Reorden',
-    emailOrderQty: 'Cantidad a Pedir',
-    emailUnitCost: 'Costo Unitario',
-    emailEstTotal: 'Total Estimado',
-    emailConfirm: 'Por favor confirme recepción, precios y fecha estimada de entrega.',
-    emailThanks: 'Gracias,',
-    emailFrom: 'Sistema de Gestión de Inventario',
-    emailSubjectPrefix: 'Solicitud de Reorden',
-  }
-};
-
-function t(key){ return T[lang][key] || T.en[key] || key; }
-function toggleLang(){ lang = lang==='en'?'es':'en'; localStorage.setItem('lang',lang); render(); renderModal(); }
-
 // ── CONFIG — these get replaced by Vercel env vars at build time ──────────────
 // For plain HTML deploy, paste your values directly here:
 const SUPABASE_URL  = 'https://suujiootpmofbdzvdhgi.supabase.co';
@@ -289,7 +124,7 @@ function stockStatus(i){
 const STATUS={
   ok: {label:'In Stock',   dot:'#27AE60',bar:'#27AE60'},
   low:{label:'Low Stock',  dot:'#F39C12',bar:'#F39C12'},
-  out:{label:t('outStat'),dot:'#E74C3C',bar:'#E74C3C'},
+  out:{label:'Out of Stock',dot:'#E74C3C',bar:'#E74C3C'},
 };
 
 // ── State ─────────────────────────────────────────────────────────────────────
@@ -314,7 +149,7 @@ setInterval(loadData, 15000);
 // ── Actions ───────────────────────────────────────────────────────────────────
 async function saveItem(){
   const f=form;
-  if(!f.sku?.trim()){showToast(t('toastSkuRequired'),'err');return;}
+  if(!f.sku?.trim()){showToast('SKU is required','err');return;}
   const payload={
     sku:f.sku.trim().toUpperCase(),name:f.name,supplier:f.supplier,
     supplier_email:f.supplier_email,qty:Number(f.qty)||0,
@@ -323,12 +158,12 @@ async function saveItem(){
   };
   if(modal==='add'){
     const{error}=await db.from('inventory').insert(payload);
-    if(error){showToast(error.message.includes('unique')?t('toastSkuExists'):error.message,'err');return;}
-    showToast(t('toastAdded'));
+    if(error){showToast(error.message.includes('unique')?'SKU already exists':error.message,'err');return;}
+    showToast('Item added ✓');
   }else{
     const{error}=await db.from('inventory').update(payload).eq('id',active.id);
     if(error){showToast(error.message,'err');return;}
-    showToast(t('toastUpdated'));
+    showToast('Item updated ✓');
   }
   modal=null;active=null;emailState='idle';renderModal();
   await loadData();
@@ -337,7 +172,7 @@ async function saveItem(){
 async function deleteItem(id){
   await db.from('inventory').delete().eq('id',id);
   modal=null;active=null;renderModal();
-  showToast(t('toastRemoved'),'warn');
+  showToast('Item removed','warn');
   await loadData();
 }
 
@@ -347,34 +182,34 @@ async function applyAdjust(){
   const newQty=adjMode==='set'?n:adjMode==='add'?active.qty+n:Math.max(0,active.qty-n);
   await db.from('inventory').update({qty:newQty}).eq('id',active.id);
   modal=null;active=null;renderModal();
-  showToast(t('toastStockUpdated'));
+  showToast('Stock updated ✓');
   await loadData();
 }
 
 async function sendOrder(item){
   emailState='sending'; renderModal();
-  const subject=`${t('emailSubjectPrefix')} — ${item.sku}: ${item.name}`;
+  const subject=`Reorder Request — ${item.sku}: ${item.name}`;
   const total=(item.order_qty*item.unit_cost).toFixed(2);
   const body=
-`${t('emailHello')} ${item.supplier} ${t('emailTeam')},
+`Hello ${item.supplier} Team,
 
-${t('emailBody1')}
-${t('emailBody2')}
+We are placing a reorder request for the following item.
+Our stock has reached the reorder threshold.
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  ${t('emailSku')}            : ${item.sku}
-  ${t('emailProduct')}        : ${item.name}
-  ${t('emailCurStock')}       : ${fmtN(item.qty)} ${item.unit}
-  ${t('emailReorderPt')}      : ${fmtN(item.reorder_point)} ${item.unit}
-  ${t('emailOrderQty')}       : ${fmtN(item.order_qty)} ${item.unit}
-  ${t('emailUnitCost')}       : ${fmt$(item.unit_cost)}
-  ${t('emailEstTotal')}       : $${Number(total).toLocaleString(undefined,{minimumFractionDigits:2})}
+  SKU            : ${item.sku}
+  Product        : ${item.name}
+  Current Stock  : ${fmtN(item.qty)} ${item.unit}
+  Reorder Point  : ${fmtN(item.reorder_point)} ${item.unit}
+  Order Quantity : ${fmtN(item.order_qty)} ${item.unit}
+  Unit Cost      : ${fmt$(item.unit_cost)}
+  Est. Total     : $${Number(total).toLocaleString(undefined,{minimumFractionDigits:2})}
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-${t('emailConfirm')}
+Please confirm receipt, pricing, and expected delivery date.
 
-${t('emailThanks')}
-${t('emailFrom')}`;
+Thank you,
+Inventory Management System`;
 
   try{
     const res=await fetch('https://api.resend.com/emails',{
@@ -433,26 +268,26 @@ function renderModal(){
   if(modal==='add'||modal==='edit'){
     const f=form;
     html=`<div class="overlay" onclick="overlayClick(event)"><div class="modal">
-<div class="modal-hd"><span class="modal-title">${modal==='add'?t('addSkuTitle'):t('editTitle')+' — '+esc(item?.sku)}</span><button class="modal-close" onclick="closeModal()">×</button></div>
+<div class="modal-hd"><span class="modal-title">${modal==='add'?'Add SKU':'Edit — '+esc(item?.sku)}</span><button class="modal-close" onclick="closeModal()">×</button></div>
 <div class="modal-body">
 <div class="grid2">
-  <div class="field"><label class="field-label">${t('fieldSku')}</label><input class="field-input" id="f-sku" value="${esc(f.sku)}" placeholder="${t('skuPlaceholder')}" ${modal==='edit'?'disabled':''}></div>
-  <div class="field"><label class="field-label">${t('fieldUnit')}</label><input class="field-input" id="f-unit" value="${esc(f.unit)}" placeholder="pcs"></div>
+  <div class="field"><label class="field-label">SKU *</label><input class="field-input" id="f-sku" value="${esc(f.sku)}" placeholder="WGT-001" ${modal==='edit'?'disabled':''}></div>
+  <div class="field"><label class="field-label">Unit</label><input class="field-input" id="f-unit" value="${esc(f.unit)}" placeholder="pcs"></div>
 </div>
-<div class="field"><label class="field-label">${t('fieldName')}</label><input class="field-input" id="f-name" value="${esc(f.name)}" placeholder="${t('namePlaceholder')}"></div>
-<div class="field"><label class="field-label">${t('fieldSupplier')}</label><input class="field-input" id="f-supplier" value="${esc(f.supplier)}" placeholder="${t('supplierPlaceholder')}"></div>
-<div class="field"><label class="field-label">${t('fieldEmail')}</label><input class="field-input" id="f-supplier_email" type="email" value="${esc(f.supplier_email)}" placeholder="${t('emailPlaceholder')}"></div>
+<div class="field"><label class="field-label">Product Name</label><input class="field-input" id="f-name" value="${esc(f.name)}" placeholder="Full product name"></div>
+<div class="field"><label class="field-label">Supplier Name</label><input class="field-input" id="f-supplier" value="${esc(f.supplier)}" placeholder="ACME Supply Co."></div>
+<div class="field"><label class="field-label">Supplier Email</label><input class="field-input" id="f-supplier_email" type="email" value="${esc(f.supplier_email)}" placeholder="orders@supplier.com"></div>
 <div class="grid4">
-  <div class="field"><label class="field-label">${t('fieldQty')}</label><input class="field-input" id="f-qty" type="number" value="${f.qty}" placeholder="0"></div>
-  <div class="field"><label class="field-label">${t('fieldReorder')}</label><input class="field-input" id="f-reorder_point" type="number" value="${f.reorder_point}" placeholder="50"></div>
-  <div class="field"><label class="field-label">${t('fieldOrderQty')}</label><input class="field-input" id="f-order_qty" type="number" value="${f.order_qty}" placeholder="100"></div>
-  <div class="field"><label class="field-label">${t('fieldCost')}</label><input class="field-input" id="f-unit_cost" type="number" step="0.01" value="${f.unit_cost}" placeholder="0.00"></div>
+  <div class="field"><label class="field-label">Current Qty</label><input class="field-input" id="f-qty" type="number" value="${f.qty}" placeholder="0"></div>
+  <div class="field"><label class="field-label">Reorder Point</label><input class="field-input" id="f-reorder_point" type="number" value="${f.reorder_point}" placeholder="50"></div>
+  <div class="field"><label class="field-label">Order Qty</label><input class="field-input" id="f-order_qty" type="number" value="${f.order_qty}" placeholder="100"></div>
+  <div class="field"><label class="field-label">Unit Cost $</label><input class="field-input" id="f-unit_cost" type="number" step="0.01" value="${f.unit_cost}" placeholder="0.00"></div>
 </div>
 <div class="modal-footer-split">
-  ${modal==='edit'?`<button class="btn btn-danger btn-sm" onclick="deleteItem('${item.id}')">${t('btnDelete')}</button>\`:'<span></span>'}
+  ${modal==='edit'?`<button class="btn btn-danger btn-sm" onclick="deleteItem('${item.id}')">Delete</button>`:'<span></span>'}
   <div style="display:flex;gap:8px">
-    <button class="btn btn-outline" onclick="closeModal()">${t('btnCancel')}</button>
-    <button class="btn btn-dark" onclick="collectForm();saveItem()">${t('btnSave')}</button>
+    <button class="btn btn-outline" onclick="closeModal()">Cancel</button>
+    <button class="btn btn-dark" onclick="collectForm();saveItem()">Save</button>
   </div>
 </div>
 </div></div></div>`;
@@ -462,21 +297,21 @@ function renderModal(){
     const n=Number(adjQty);
     const preview=adjQty!==''&&!isNaN(n)?(adjMode==='set'?n:adjMode==='add'?item.qty+n:Math.max(0,item.qty-n)):null;
     html=`<div class="overlay" onclick="overlayClick(event)"><div class="modal" style="max-width:380px">
-<div class="modal-hd"><span class="modal-title">${t('adjustTitle')} — ${esc(item.sku)}</span><button class="modal-close" onclick="closeModal()">×</button></div>
+<div class="modal-hd"><span class="modal-title">Adjust Stock — ${esc(item.sku)}</span><button class="modal-close" onclick="closeModal()">×</button></div>
 <div class="modal-body">
 <div style="background:#F5F4F0;border-radius:10px;padding:12px 14px;margin-bottom:14px">
-  <div style="font-size:11px;color:#aaa;margin-bottom:3px">${t('currentStock')}</div>
+  <div style="font-size:11px;color:#aaa;margin-bottom:3px">Current stock</div>
   <div style="font-size:22px;font-weight:600">${fmtN(item.qty)} <span style="font-size:13px;font-weight:400;color:#aaa">${esc(item.unit)}</span></div>
 </div>
 <div class="mode-btns">
-  <button class="mode-btn ${adjMode==='set'?'active':''}" onclick="setMode('set')">${t('btnSetTo')}</button>
-  <button class="mode-btn ${adjMode==='add'?'active':''}" onclick="setMode('add')">${t('btnAdd')}</button>
-  <button class="mode-btn ${adjMode==='sub'?'active':''}" onclick="setMode('sub')">${t('btnRemove')}</button>
+  <button class="mode-btn ${adjMode==='set'?'active':''}" onclick="setMode('set')">Set to</button>
+  <button class="mode-btn ${adjMode==='add'?'active':''}" onclick="setMode('add')">Add</button>
+  <button class="mode-btn ${adjMode==='sub'?'active':''}" onclick="setMode('sub')">Remove</button>
 </div>
-<div class="field"><label class="field-label">${adjMode==='set'?t('newQty'):adjMode==='add'?t('qtyToAdd'):t('qtyToRemove')}</label>
+<div class="field"><label class="field-label">${adjMode==='set'?'New quantity':adjMode==='add'?'Qty to add':'Qty to remove'}</label>
   <input class="field-input" id="adj-qty" type="number" value="${esc(adjQty)}" placeholder="0" oninput="adjQty=this.value;renderModal()">
 </div>
-${preview!==null?`<div style="font-size:12px;color:#888;margin:-8px 0 14px">${t('newTotal')}: <strong style="color:#111">${fmtN(preview)} ${esc(item.unit)}</strong></div>`:''}
+${preview!==null?`<div style="font-size:12px;color:#888;margin:-8px 0 14px">New total: <strong style="color:#111">${fmtN(preview)} ${esc(item.unit)}</strong></div>`:''}
 <div class="modal-footer">
   <button class="btn btn-outline" onclick="closeModal()">Cancel</button>
   <button class="btn btn-dark" onclick="applyAdjust()">Apply</button>
@@ -488,25 +323,25 @@ ${preview!==null?`<div style="font-size:12px;color:#888;margin:-8px 0 14px">${t(
     const total=(item.order_qty*item.unit_cost).toFixed(2);
     if(emailState==='sent'){
       html=`<div class="overlay" onclick="overlayClick(event)"><div class="modal">
-<div class="modal-hd"><span class="modal-title">${t('sentTitle')}</span><button class="modal-close" onclick="closeModal()">×</button></div>
+<div class="modal-hd"><span class="modal-title">Order Sent</span><button class="modal-close" onclick="closeModal()">×</button></div>
 <div class="modal-body"><div class="sent-state">
   <div style="font-size:40px;margin-bottom:12px">✓</div>
-  <div style="font-weight:600;font-size:16px;margin-bottom:6px">${t('sentTitle')}</div>
-  <div style="font-size:13px;color:#888;line-height:1.6;margin-bottom:20px">${t('sentSub')} <strong>${esc(item.supplier)}</strong><br>${t('sentAt')} ${esc(item.supplier_email)}</div>
-  <button class="btn btn-dark" onclick="closeModal()">${t('btnDone')}</button>
+  <div style="font-weight:600;font-size:16px;margin-bottom:6px">Email sent!</div>
+  <div style="font-size:13px;color:#888;line-height:1.6;margin-bottom:20px">Order email delivered to <strong>${esc(item.supplier)}</strong><br>at ${esc(item.supplier_email)}</div>
+  <button class="btn btn-dark" onclick="closeModal()">Done</button>
 </div></div></div></div>`;
     }else if(emailState==='error'){
       html=`<div class="overlay" onclick="overlayClick(event)"><div class="modal">
-<div class="modal-hd"><span class="modal-title">${t('errTitle')}</span><button class="modal-close" onclick="closeModal()">×</button></div>
+<div class="modal-hd"><span class="modal-title">Error</span><button class="modal-close" onclick="closeModal()">×</button></div>
 <div class="modal-body"><div class="sent-state">
   <div style="font-size:36px;color:#C0392B;margin-bottom:12px">✗</div>
-  <div style="font-weight:600;font-size:16px;color:#C0392B;margin-bottom:6px">${t('errTitle')}</div>
-  <div style="font-size:13px;color:#888;margin-bottom:20px">${t('errSub')}</div>
-  <button class="btn btn-dark" onclick="emailState='idle';renderModal()">${t('btnTryAgain')}</button>
+  <div style="font-weight:600;font-size:16px;color:#C0392B;margin-bottom:6px">Failed to send</div>
+  <div style="font-size:13px;color:#888;margin-bottom:20px">Check your Resend API key and try again.</div>
+  <button class="btn btn-dark" onclick="emailState='idle';renderModal()">Try Again</button>
 </div></div></div></div>`;
     }else{
       html=`<div class="overlay" onclick="overlayClick(event)"><div class="modal">
-<div class="modal-hd"><span class="modal-title">${t('reorderTitle')} — ${esc(item.sku)}</span><button class="modal-close" onclick="closeModal()">×</button></div>
+<div class="modal-hd"><span class="modal-title">Reorder — ${esc(item.sku)}</span><button class="modal-close" onclick="closeModal()">×</button></div>
 <div class="modal-body">
 <div class="info-grid">
   <div class="info-cell"><div class="info-cell-label">To</div><div class="info-cell-val" style="font-family:'DM Mono',monospace;font-size:12px">${esc(item.supplier_email)}</div></div>
@@ -529,7 +364,7 @@ Please confirm and provide expected delivery date.
 <div class="modal-footer">
   <button class="btn btn-outline" onclick="closeModal()">Cancel</button>
   <button class="btn btn-dark" id="send-btn" onclick="sendOrder(active)" ${emailState==='sending'?'disabled style="background:#888;cursor:default"':''}>
-    ${emailState==='sending'?`<span style="display:inline-flex;align-items:center;gap:7px"><span style="width:12px;height:12px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;display:inline-block"></span>${t('btnSending')}</span>`:t('btnSendEmail')}
+    ${emailState==='sending'?'<span style="display:inline-flex;align-items:center;gap:7px"><span style="width:12px;height:12px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;display:inline-block"></span>Sending…</span>':'✉ Send Order Email'}
   </button>
 </div>
 </div></div></div>`;
@@ -538,16 +373,16 @@ Please confirm and provide expected delivery date.
 
   if(modal==='log'){
     const entries=log.length===0
-      ?`<div style="text-align:center;padding:32px 0;color:#bbb;font-size:14px">${t('noOrders')}</div>`
+      ?'<div style="text-align:center;padding:32px 0;color:#bbb;font-size:14px">No orders sent yet</div>'
       :log.map(o=>`<div class="log-entry">
 <div><span class="sku" style="margin-right:8px">${esc(o.sku)}</span><strong style="font-size:13px">${esc(o.name)}</strong></div>
 <div style="font-size:12px;color:#888;margin-top:3px">${esc(o.supplier)} · ${esc(o.supplier_email)}</div>
-<div style="font-size:12px;color:#888">${t('logQty')}: ${fmtN(o.order_qty)} ${esc(o.unit)} · ${t('logEst')} $${(o.order_qty*o.unit_cost).toLocaleString('en-US',{minimumFractionDigits:2})} · ${esc(o.sent_at)}</div>
+<div style="font-size:12px;color:#888">Qty: ${fmtN(o.order_qty)} ${esc(o.unit)} · Est. $${(o.order_qty*o.unit_cost).toLocaleString('en-US',{minimumFractionDigits:2})} · ${esc(o.sent_at)}</div>
 <span class="log-badge"><span style="width:5px;height:5px;border-radius:50%;background:#27AE60"></span>${esc(o.status)}</span>
 </div>`).join('');
     html=`<div class="overlay" onclick="overlayClick(event)"><div class="modal" style="max-width:660px">
-<div class="modal-hd"><span class="modal-title">${t('logTitle')}</span><button class="modal-close" onclick="closeModal()">×</button></div>
-<div class="modal-body">${entries}<div class="modal-footer"><button class="btn btn-outline" onclick="closeModal()">${t('btnClose')}</button></div></div>
+<div class="modal-hd"><span class="modal-title">Order Log</span><button class="modal-close" onclick="closeModal()">×</button></div>
+<div class="modal-body">${entries}<div class="modal-footer"><button class="btn btn-outline" onclick="closeModal()">Close</button></div></div>
 </div></div>`;
   }
 
@@ -565,8 +400,8 @@ function render(){
 
   const alertBar=alertItems.length>0?`
 <div class="alert-bar">
-  <span class="alert-text">⚠ ${outItems.length} ${t('outOfStock')} · ${lowItems.length} ${t('belowReorder')}</span>
-  <div class="alert-btns">${alertItems.slice(0,4).map(i=>`<button class="alert-btn" onclick="openEmail('${i.id}')">${t('btnOrder')} ${esc(i.sku)} ↗</button>`).join('')}</div>
+  <span class="alert-text">⚠ ${outItems.length} out of stock · ${lowItems.length} below reorder point</span>
+  <div class="alert-btns">${alertItems.slice(0,4).map(i=>`<button class="alert-btn" onclick="openEmail('${i.id}')">Order ${esc(i.sku)} ↗</button>`).join('')}</div>
 </div>`:'';
 
   const rows=filtered.length===0
@@ -577,25 +412,25 @@ function render(){
       const pct=item.reorder_point>0?Math.min(100,Math.round(item.qty/(item.reorder_point*2)*100)):100;
       return`<tr>
 <td><span class="sku">${esc(item.sku)}</span></td>
-<td><div class="pname">${esc(item.name)}</div>${item.last_ordered?`<div class="psub">${t('lastOrdered')} ${esc(item.last_ordered)}</div>`:''}</td>
+<td><div class="pname">${esc(item.name)}</div>${item.last_ordered?`<div class="psub">Last ordered ${esc(item.last_ordered)}</div>`:''}</td>
 <td style="min-width:150px">
   <div style="display:flex;align-items:baseline;gap:4px">
     <span style="font-weight:600;font-size:14px">${fmtN(item.qty)}</span>
     <span style="font-size:12px;color:#bbb">${esc(item.unit)}</span>
     <span style="color:#ddd;font-size:11px;margin:0 2px">·</span>
-    <span style="font-size:11px;color:#bbb">${t('min')} ${fmtN(item.reorder_point)}</span>
+    <span style="font-size:11px;color:#bbb">min ${fmtN(item.reorder_point)}</span>
   </div>
-  <div class="bar-track"><div class="bar-fill" style="width:${pct}%;background:${STATUS(st).bar}"></div></div>
+  <div class="bar-track"><div class="bar-fill" style="width:${pct}%;background:${STATUS[st].bar}"></div></div>
 </td>
 <td><span class="mono">${fmtN(item.order_qty)} ${esc(item.unit)}</span></td>
 <td><span class="mono">${fmt$(item.unit_cost)}</span></td>
 <td><div style="font-size:13px">${esc(item.supplier)}</div><div style="font-size:11px;color:#bbb">${esc(item.supplier_email)}</div></td>
-<td><span class="badge badge-${st}"><span class="badge-dot badge-dot-${st}"></span>${STATUS(st).label}</span></td>
+<td><span class="badge badge-${st}"><span class="badge-dot badge-dot-${st}"></span>${STATUS[st].label}</span></td>
 <td>
   <div class="actions">
-    <button class="btn btn-sm" style="background:#F5F4F0;border:none;color:#555" onclick="openAdjust('${item.id}')">${t('btnAdjust')}</button>
-    <button class="btn btn-sm" style="background:#F5F4F0;border:none;color:#555" onclick="openEdit('${item.id}')">${t('btnEdit')}</button>
-    <button class="btn btn-sm" style="background:${isAlert?'#EBF5FB':'#F5F4F0'};border:none;color:${isAlert?'#1A5276':'#888'};font-weight:${isAlert?'600':'400'}" onclick="openEmail('${item.id}')">${isAlert?t('btnOrderAlert'):t('btnOrder')}</button>
+    <button class="btn btn-sm" style="background:#F5F4F0;border:none;color:#555" onclick="openAdjust('${item.id}')">±</button>
+    <button class="btn btn-sm" style="background:#F5F4F0;border:none;color:#555" onclick="openEdit('${item.id}')">Edit</button>
+    <button class="btn btn-sm" style="background:${isAlert?'#EBF5FB':'#F5F4F0'};border:none;color:${isAlert?'#1A5276':'#888'};font-weight:${isAlert?'600':'400'}" onclick="openEmail('${item.id}')">${isAlert?'⚡ Order':'Order'}</button>
   </div>
 </td>
 </tr>`;}).join('');
@@ -608,7 +443,7 @@ function render(){
     <div class="live-pill"><span class="live-dot"></span>Live sync · Shared data</div>
   </div>
   <div class="topbar-btns">
-    <button class="btn btn-ghost" onclick="modal='log';renderModal()">${t('orderLog')}${log.length>0?` <span style="background:#2874A6;color:#fff;border-radius:99px;padding:1px 7px;font-size:11px">${log.length}</span>`:''}</button>
+    <button class="btn btn-ghost" onclick="modal='log';renderModal()">Order Log${log.length>0?` <span style="background:#2874A6;color:#fff;border-radius:99px;padding:1px 7px;font-size:11px">${log.length}</span>`:''}</button>
     <button class="btn btn-white" onclick="openAdd()">+ Add SKU</button>
   </div>
 </div>
@@ -627,11 +462,11 @@ ${alertBar}
   </div>
   <div class="table-wrap">
     <table>
-      <thead><tr><th>${t('colSku')}</th><th>${t('colProduct')}</th><th>${t('colStock')}</th><th>${t('colOrderQty')}</th><th>${t('colUnitCost')}</th><th>${t('colSupplier')}</th><th>${t('colStatus')}</th><th>${t('colActions')}</th></tr></thead>
+      <thead><tr><th>SKU</th><th>Product</th><th>Stock / Reorder</th><th>Order Qty</th><th>Unit Cost</th><th>Supplier</th><th>Status</th><th>Actions</th></tr></thead>
       <tbody>${rows}</tbody>
     </table>
   </div>
-  <div class="footer-note">${t('footerNote')}</div>
+  <div class="footer-note">All changes sync in real time · Anyone with this URL can use it · No login required</div>
 </div>`;
 }
 
