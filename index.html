@@ -165,12 +165,15 @@ async function saveItem(){
     if(error){showToast(error.message,'err');return;}
     showToast('Item updated ✓');
   }
-  closeModal();
+  modal=null;active=null;emailState='idle';renderModal();
+  await loadData();
 }
 
 async function deleteItem(id){
   await db.from('inventory').delete().eq('id',id);
-  showToast('Item removed','warn'); closeModal();
+  modal=null;active=null;renderModal();
+  showToast('Item removed','warn');
+  await loadData();
 }
 
 async function applyAdjust(){
@@ -178,7 +181,9 @@ async function applyAdjust(){
   if(isNaN(n)||adjQty==='')return;
   const newQty=adjMode==='set'?n:adjMode==='add'?active.qty+n:Math.max(0,active.qty-n);
   await db.from('inventory').update({qty:newQty}).eq('id',active.id);
-  showToast('Stock updated ✓'); closeModal();
+  modal=null;active=null;renderModal();
+  showToast('Stock updated ✓');
+  await loadData();
 }
 
 async function sendOrder(item){
@@ -243,7 +248,7 @@ function showToast(msg,type='ok'){
 }
 
 // ── Modal helpers ─────────────────────────────────────────────────────────────
-function closeModal(){modal=null;active=null;emailState='idle';renderModal();loadData();}
+function closeModal(){modal=null;active=null;emailState='idle';renderModal();}
 function overlayClick(e){if(e.target===e.currentTarget)closeModal();}
 function setMode(m){adjMode=m;renderModal();}
 function collectForm(){
