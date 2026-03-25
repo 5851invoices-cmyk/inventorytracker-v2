@@ -143,8 +143,8 @@ async function loadData(){
 }
 
 // Realtime — all users see live updates instantly
-db.channel('inv').on('postgres_changes',{event:'*',schema:'public',table:'inventory'},loadData)
-  .on('postgres_changes',{event:'*',schema:'public',table:'order_log'},loadData).subscribe();
+// Poll every 15 seconds so all users see updates
+setInterval(loadData, 15000);
 
 // ── Actions ───────────────────────────────────────────────────────────────────
 async function saveItem(){
@@ -243,7 +243,7 @@ function showToast(msg,type='ok'){
 }
 
 // ── Modal helpers ─────────────────────────────────────────────────────────────
-function closeModal(){modal=null;active=null;emailState='idle';renderModal();}
+function closeModal(){modal=null;active=null;emailState='idle';renderModal();loadData();}
 function overlayClick(e){if(e.target===e.currentTarget)closeModal();}
 function setMode(m){adjMode=m;renderModal();}
 function collectForm(){
